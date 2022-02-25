@@ -1,5 +1,7 @@
 # datos-masivos
 
+- A basic git commands
+
 ```sh
 git status
 git add .
