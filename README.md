@@ -1,3 +1,3 @@
 # datos-masivos
-# Everything related to data mining course goes here.
+# Everything related to big data course goes here.
 #Practice#2 added.
