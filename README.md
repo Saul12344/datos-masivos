@@ -9,7 +9,9 @@
 <H2><p align="Center">Ramos Rivera Manuel Isaí #17212931</p></H2>
 
 ## Practice#1
-
+[PDF link](https://github.com/Saul12344/datos-masivos/blob/unit-2/practices/P1U2.pdf)  
+[.scala File](https://github.com/Saul12344/datos-masivos/blob/unit-2/practices/Practice%231.scala)  
+## Code
 
     package org.apache.spark.examples.mllib
 
