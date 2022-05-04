@@ -54,7 +54,7 @@
     }
 
 
-<H2><p align="Center">Practice#2</p></H2>
+## Practice#2
 [PDF link](https://github.com/Saul12344/datos-masivos/blob/unit-2/practices/P2U2.pdf)  
 [.scala File](https://github.com/Saul12344/datos-masivos/blob/unit-2/practices/Practice%232.scala)  
 ## Code
