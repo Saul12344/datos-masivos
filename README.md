@@ -57,12 +57,6 @@
 
 
 <br>
-<br>
-<br>
-<br>
-<br>
-
-###
 
     import org.apache.spark.ml.Pipeline
     import org.apache.spark.ml.classification.DecisionTreeClassificationModel
