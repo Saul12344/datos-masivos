@@ -9,7 +9,7 @@
 <H2><p align="Center">Ramos Rivera Manuel Isaí #17212931</p></H2>
 
 ## Practice#1
-[PDF link](https://github.com/Saul12344/datos-masivos/blob/unit-2/practices/Practice%213.md)  
+[PDF link](https://github.com/Saul12344/datos-masivos/blob/unit-2/practices/Practice%231.md)  
 [.scala File](https://github.com/Saul12344/datos-masivos/blob/unit-2/practices/Practice%231.scala)  
 ## Code
 
@@ -55,7 +55,7 @@
 
 
 ## Practice#2
-[PDF link](https://github.com/Saul12344/datos-masivos/blob/unit-2/practices/Practice%223.md)  
+[PDF link](https://github.com/Saul12344/datos-masivos/blob/unit-2/practices/Practice%232.md)  
 [.scala File](https://github.com/Saul12344/datos-masivos/blob/unit-2/practices/Practice%232.scala)  
 ## Code
 
