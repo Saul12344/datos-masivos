@@ -10,23 +10,23 @@
 
 <H2><p align="Center">DEPARTAMENTO DE SISTEMAS Y COMPUTACIÓN</p></H2>
 
-<H2><p align="Center">NOMBRE DE LOS ALUMNOS: </p></H2>
+<H2><p align="Center">Students's Names: </p></H2>
 
 <H2><p align="Center">López Higuera Saúl Alfredo #18210493</p></H2>
 
 <H2><p align="Center">Ramos Rivera Manuel Isaí #17212931</p></H2>
 
-<H2><p align="Center">Carrera: Ingeniería Informática</p></H2>
+<H2><p align="Center">Career: Ingeniería en sistemas</p></H2>
 
-<H2><p align="Center">Semestre: 9 </p></H2>
+<H2><p align="Center">Semester: 9 </p></H2>
 
-<H2><p align="Center">MATERIA: Datos masivos</p></H2>
+<H2><p align="Center">Subject-matter: Datos masivos</p></H2>
 
-<H2><p align="Center">PROFESOR: JOSE CHRISTIAN ROMERO HERNANDEZ</p></H2>
+<H2><p align="Center">Teacher's name: JOSE CHRISTIAN ROMERO HERNANDEZ</p></H2>
 
-<H2><p align="Center">TRABAJOS: Practica 2</p></H2>
+<H2><p align="Center">Homework: Practica 2</p></H2>
 
-<H2><p align="Center">FECHA: 05/05/22</p></H2>
+<H2><p align="Center">Date: 05/05/22</p></H2>
 
 <br>
 <br>
@@ -34,7 +34,7 @@
 <br>
 <br>
 
-###
+###Practice#2
 
     import org.apache.spark.ml.Pipeline
  
