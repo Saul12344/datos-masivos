@@ -14,7 +14,8 @@
 ## Practice#1 
 <BR>
 </BR>
-package org.apache.spark.examples.mllib
+          
+          package org.apache.spark.examples.mllib
 
           import org.apache.spark.{SparkConf, SparkContext}
                     // $example on$
