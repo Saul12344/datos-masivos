@@ -24,7 +24,7 @@
 
 <H2><p align="Center">Teacher's name: JOSE CHRISTIAN ROMERO HERNANDEZ</p></H2>
 
-<H2><p align="Center">Homework: Practica 2</p></H2>
+<H2><p align="Center">Homework: Practica 1</p></H2>
 
 <H2><p align="Center">Date: 05/05/22</p></H2>
 
