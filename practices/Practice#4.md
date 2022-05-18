@@ -64,6 +64,13 @@
     println(s"Test Error = $testErr")
     println(s"Learned classification GBT model:\n ${model.toDebugString}")
 
+<H2><p align="Center">Resultado</p></H2>
+
+
+<p align="center">
+    <img alt="Logo" src="https://www.tijuana.tecnm.mx/wp-content/uploads/2021/08/liston-de-logos-oficiales-educacion-tecnm-FEB-2021.jpg" width=850 height=250>
+</p>
+
     // Save and load model
     model.save(sc, "target/tmp/myGradientBoostingClassificationModel")
     val sameModel = GradientBoostedTreesModel.load(sc,
