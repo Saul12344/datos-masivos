@@ -68,7 +68,7 @@
 
 
 <p align="center">
-    <img alt="Logo" src="https://www.tijuana.tecnm.mx/wp-content/uploads/2021/08/liston-de-logos-oficiales-educacion-tecnm-FEB-2021.jpg" width=850 height=250>
+    <img alt="Logo" src="RP5.PNG" width=850 height=250>
 </p>
 
     // Save and load model
