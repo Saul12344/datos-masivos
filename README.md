@@ -288,4 +288,81 @@
         .setMetricName("accuracy")
 
     println(s"Test set accuracy = ${evaluator.evaluate(predictionAndLabels)}")
+## Practice#6
+[Practice link](https://github.com/Saul12344/datos-masivos/blob/unit-2/practices/Practice%236.md)  
+[.scala File](https://github.com/Saul12344/datos-masivos/blob/unit-2/practices/Practice%236.scala)  
+## Code
+<BR>
+</BR>
 
+  ~~~
+// Import the "LinearSVC" library.
+import org.apache.spark.ml.classification.LinearSVC
+
+// Load training data
+val training = spark.read.format("libsvm").load("C:/Spark/spark-2.4.8-binhadoop2.7/data/mllib/sample_libsvm_data.txt")
+
+//Set the maximum number of iterations and the regularization parameter
+val lsvc = new LinearSVC().setMaxIter(10).setRegParam(0.1)
+
+val lsvcModel = lsvc.fit(training)
+
+println(s"Coefficients: ${lsvcModel.coefficients} Intercept:
+${lsvcModel.intercept}")
+~~~
+![logo](/images/P6.PNG)  
+
+## Practice#7
+[Practice link](https://github.com/Saul12344/datos-masivos/blob/unit-2/practices/Practice%237.md)  
+[.scala File](https://github.com/Saul12344/datos-masivos/blob/unit-2/practices/Practice%237.scala)  
+## Code
+<BR>
+</BR>
+
+~~~
+//Importar las librerías necesarias
+import org.apache.spark.ml.classification.NaiveBayes
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+import org.apache.spark.sql.SparkSession
+
+//Cargar los datos especificando la ruta del archivo
+val data = spark.read.format("libsvm").load("C:/spark/spark-2.4.8-bin-hadoop2.7/data/mllib/sample_libsvm_data.txt")
+
+println ("Numero de lineas en el archivo de datos:" + data.count ())
+
+
+//Mostrar las primeras 20 líneas por defecto
+
+data.show()
+~~~
+![logo](/images/7.1.PNG)  
+~~~
+//Divida aleatoriamente el conjunto de datos en conjunto de entrenamiento y conjunto de prueba de acuerdo con los pesos proporcionados. También puede especificar una seed
+val Array (trainingData, testData) = data.randomSplit (Array (0.7, 0.3), 100L)
+
+// El resultado es el tipo de la matriz, y la matriz almacena los datos de tipo DataSet
+//Incorporar al conjunto de entrenamiento (operación de ajuste) para entrenar un modelo bayesiano
+val naiveBayesModel = new NaiveBayes().fit(trainingData)
+
+//El modelo llama a transform() para hacer predicciones y generar un nuevo DataFrame.
+val predictions = naiveBayesModel.transform(testData)
+
+
+//Salida de datos de resultados de predicción
+predictions.show()
+ ~~~
+ ![logo](/images/7.2.PNG)  
+  ~~~
+//Evaluación de la precisión del modelo
+val evaluator = new MulticlassClassificationEvaluator().setLabelCol("label").setPredictionCol("prediction").setMetricName("accuracy")
+
+// Precisión
+val precision = evaluator.evaluate (predictions) 
+ ~~~
+ ![logo](/images/7.3.PNG)  
+~~~
+//Imprimir la tasa de error
+println ("tasa de error =" + (1-precision))
+ ~~~
+
+![logo](/images/7.4.PNG)  
