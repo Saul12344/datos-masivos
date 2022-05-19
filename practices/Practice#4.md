@@ -68,7 +68,7 @@
 
 
 <p align="center">
-    ![logo](/images/RP5.PNG)  
+    ![logo](/images/RP5.PNG)   
    
 </p>
 
