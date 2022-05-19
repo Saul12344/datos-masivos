@@ -64,11 +64,12 @@
     println(s"Test Error = $testErr")
     println(s"Learned classification GBT model:\n ${model.toDebugString}")
 
-<H2><p align="Center">Resultado</p></H2>
+**Output.**
 
 
 <p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/homeworks/RP5.PNG" width=850 height=250>
+    ![logo](/images/RP5.PNG)  
+   
 </p>
 
     // Save and load model
