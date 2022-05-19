@@ -68,7 +68,7 @@
 
 
 <p align="center">
-    ![logo](/images/RP5.PNG)   
+    ![logo](https://github.com/Saul12344/datos-masivos/blob/unit-2/images/RP5.png)   
    
 </p>
 
