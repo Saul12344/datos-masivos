@@ -66,7 +66,8 @@
 
 **Output.**
 
-![logo](/images/RP5.PNG)  
+<img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/images/RP5.png" width=850 height=250>
+![logo](/images/RP5.png)  
 
    
 
