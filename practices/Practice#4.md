@@ -66,11 +66,9 @@
 
 **Output.**
 
-
-<p align="center">
 ![logo](/images/RP5.PNG)  
    
-</p>
+
 
     // Save and load model
     model.save(sc, "target/tmp/myGradientBoostingClassificationModel")
