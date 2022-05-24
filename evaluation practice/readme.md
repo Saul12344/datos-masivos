@@ -27,7 +27,7 @@ var spark = SparkSession.builder().getOrCreate()
 //Cargar Iris.csv
 val df = spark.read.format("csv").option("inferSchema","true").option("header","true").csv("iris.csv")
   ~~~
-![logo](/images/a.2.PNG)  
+![logo](/images/E1.PNG)  
   ~~~
 //Cuales son los nombres de las columnas?
 df.columns
