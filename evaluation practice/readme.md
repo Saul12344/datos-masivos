@@ -8,7 +8,7 @@
 
 <H2><p align="Center">Ramos Rivera Manuel Isaí #17212931</p></H2>
 
-## evaluative practice#2
+## Evaluative practice#2
 [Practice link]()  
 [.scala File]()  
 ## Code
@@ -27,7 +27,7 @@ var spark = SparkSession.builder().getOrCreate()
 //Cargar Iris.csv
 val df = spark.read.format("csv").option("inferSchema","true").option("header","true").csv("iris.csv")
   ~~~
-![logo](/img/a.2.PNG)  
+![logo](/evaluation practice/img/a.2.PNG)  
   ~~~
 //Cuales son los nombres de las columnas?
 df.columns
