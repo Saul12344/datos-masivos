@@ -24,114 +24,68 @@
 
 <H2><p align="Center">Teacher's name: JOSE CHRISTIAN ROMERO HERNANDEZ</p></H2>
 
-<H2><p align="Center">evaluation 2 </p></H2>
+<H2><p align="Center">Practice 2 </p></H2>
 
-<H2><p align="Center">Date: 23/05/22</p></H2>
+<H2><p align="Center">Date: 04/05/22</p></H2>
 
 <br>
 <br>
 <br>
 <br>
 <br>
+~~~
+import org.apache.spark.ml.Pipeline
+    import org.apache.spark.ml.classification.DecisionTreeClassificationModel
+    import org.apache.spark.ml.classification.DecisionTreeClassifier 
+    import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator 
+    import org.apache.spark.ml.feature.
+    {IndexToString, StringIndexer, VectorIndexer}
 
-<H2><p align="Center">Instrucciones</p></H2>
-<H2><p>Desarrollar las siguientes instrucciones en Spark con el leguaje de programación Scala,
-utilizando solo la documentacion de la librería de Machine Learning Mllib de Spark y
-Google</p></H2>
+    // Load the data stored in LIBSVM format as a DataFrame.
+    val data = spark.read.format("libsvm").load("data/mllib/sample_libsvm_data.txt")
 
-<H3>1. Cargar en un dataframe Iris.csv que se encuentra en
-https://github.com/jcromerohdz/iris, elaborar la liempieza de datos necesaria para ser
-procesado por el siguiente algoritmo (Importante, esta limpieza debe ser por
-medio de un script de Scala en Spark) .</H3>
+    // Index labels, adding metadata to the label column.
+    // Fit on whole dataset to include all labels in index.
 
-<H4> a. Utilice la librería Mllib de Spark el algoritmo de Machine Learning multilayer
-perceptron</H4>
+    val labelIndexer = new StringIndexer() .setInputCol("label") .setOutputCol("indexedLabel") .fit(data) 
 
+    //Automatically identify categorical features, and index them.
 
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/a.1.png" width=850 height=250>
-</p>
+    val featureIndexer = new VectorIndexer() .setInputCol("features") .setOutputCol("indexedFeatures") .setMaxCategories(4) 
 
+    // features with > 4 distinct values are treated as continuous. .fit(data)
 
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/a.2.png" width=650 height=250>
-</p>
+    // Split the data into training and test sets (30% held out for testing).
 
-<H2><p>2. ¿Cuáles son los nombres de las columnas?</p></H2>
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/2.1.png" width=350 height=150>
-</p>
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/2.2.png" width=550 height=150>
-</p>
+    val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3))
 
+    // Train a DecisionTree model. 
 
+    val dt = new DecisionTreeClassifier() .setLabelCol("indexedLabel") .setFeaturesCol("indexedFeatures")
 
-<H2><p> 3. ¿Cómo es el esquema?</p></H2>
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/3.1.png" width=450 height=150>
-</p>
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/3.2.png" width=650 height=150>
-</p>
+    // Convert indexed labels back to original labels. 
 
+    val labelConverter = new IndexToString() .setInputCol("prediction") .setOutputCol("predictedLabel") .setLabels(labelIndexer.labels)
 
-<H2><p>4. Imprime las primeras 5 columnas.</p></H2>
+    // Chain indexers and tree in a Pipeline. 
 
+    val pipeline = new Pipeline() .setStages(Array(labelIndexer, featureIndexer, dt, labelConverter))
 
+    // Train model. This also runs the indexers.
 
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/4.1.png" >
-</p>
+    val model = pipeline.fit(trainingData)
 
+    // Make predictions. 
 
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/4.2.png" >
-</p>
+    val predictions = model.transform(testData)
 
+    // Select example rows to display. 
 
+    predictions.select("predictedLabel", "label", "features").show(5)
 
-<H2><p>5. Usa el método describe () para aprender más sobre los datos del DataFrame.</p></H2>
+    // Select (prediction, true label) and compute test error. 
 
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/5.1.png" >
-</p>
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/5.2.png" >
-</p>
+    val evaluator = new MulticlassClassificationEvaluator() .setLabelCol("indexedLabel") .setPredictionCol("prediction") .setMetricName("accuracy") val accuracy = evaluator.evaluate(predictions) println(s"Test Error = ${(1.0 - accuracy)}")
 
-<H2><p>6. Haga la transformación pertinente para los datos categóricos los cuales serán
-nuestras etiquetas a clasificar.</p></H2>
-
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/6.1.png" width=850 height=250>
-</p>
-
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/6.2.png" width=650 height=350>
-</p>
-
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/6.3.png" width=650 height=350>
-</p>
-
-
-
-<H2><p>7. Construya el modelo de clasificación y explique su arquitectura.</p></H2>
-
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/7.1.png" >
-</p>
-
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/7.2.png" >
-</p>
-
-<H2><p>8. Imprima los resultados del modelo</p></H2>
-
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/8.1.png" >
-</p>
-<p align="center">
-    <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/img/8.2.png" >
-</p>
+    val treeModel = model.stages(2).asInstanceOf[DecisionTreeClassificationModel] println(s"Learned classification tree model:\n ${treeModel.toDebugString}")
+~~~
