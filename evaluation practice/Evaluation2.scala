@@ -33,7 +33,7 @@ val output = Vassembler.transform(df)
 output.show()
 
 //Transformamos la columna especial en numerica y nombrandola como label
-val labelIndexer = new StringIndexer().setInputCol("species").setOutputCol("label").fit(df) //special note: col must always be called label to be automatic
+val labelIndexer = new StringIndexer().setInputCol("species").setOutputCol("label").fit(df) 
 val indexed = labelIndexer.transform(output) 
 indexed.show()
 
