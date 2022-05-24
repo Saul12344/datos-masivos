@@ -13,7 +13,7 @@
 [.scala File]()  
 ## Code
   ~~~
-///Utilice la libreria Mllib de Spark el algoritmo de Machine Learning multilayer perceptron
+//Utilice la libreria Mllib de Spark el algoritmo de Machine Learning multilayer perceptron
 
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
@@ -26,7 +26,9 @@ import org.apache.spark.ml.linalg.Vectors
 var spark = SparkSession.builder().getOrCreate()
 //Cargar Iris.csv
 val df = spark.read.format("csv").option("inferSchema","true").option("header","true").csv("iris.csv")
-
+  ~~~
+![logo](/img/a.2.PNG)  
+  ~~~
 //Cuales son los nombres de las columnas?
 df.columns
 
