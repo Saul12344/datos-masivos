@@ -10,8 +10,7 @@
 <H2><p align="Center">LINK DEL VIDEO:https://youtu.be/FWt-n5UPNuE</p></H2>
 
 ## Evaluative practice#2
-[Practice link]()  
-[.scala File]()  
+[.scala File](https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/Evaluation2.scala)  
 ## Code
   ~~~
 //Utilice la libreria Mllib de Spark el algoritmo de Machine Learning multilayer perceptron
