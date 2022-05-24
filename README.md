@@ -366,3 +366,7 @@ println ("tasa de error =" + (1-precision))
  ~~~
 
 ![logo](/images/7.4.PNG)  
+
+## Evaluative practice#2
+[Evaluative practice#2](https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/readme.md)  
+[.scala File](https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/Evaluation2.scala)  
