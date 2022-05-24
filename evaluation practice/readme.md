@@ -7,6 +7,7 @@
 <H2><p align="Center">López Higuera Saúl Alfredo #18210493</p></H2>
 
 <H2><p align="Center">Ramos Rivera Manuel Isaí #17212931</p></H2>
+<H2><p align="Center">LINK DEL VIDEO:https://youtu.be/FWt-n5UPNuE</p></H2>
 
 ## Evaluative practice#2
 [Practice link]()  
@@ -31,16 +32,24 @@ val df = spark.read.format("csv").option("inferSchema","true").option("header","
   ~~~
 //Cuales son los nombres de las columnas?
 df.columns
-
+ ~~~
+![logo](/images/E2.PNG)  
+  ~~~
 //Como es el esquema?
 df.printSchema()
-
+ ~~~
+![logo](/images/E3.PNG)  
+  ~~~
 //Imprime las primeras 5 columnas.
 df.select($"sepal_length",$"sepal_width",$"petal_length",$"petal_width",$"species").show()
-
+ ~~~
+![logo](/images/E4.PNG)  
+  ~~~
 //Usa el metodo describe () para aprender mas sobre los datos del DataFrame.
 df.describe()
-
+ ~~~
+![logo](/images/E5.PNG)  
+  ~~~
 //Haga la transformacion pertinente para los datos categoricos los cuales seran nuestras etiquetas a clasificar.
 
 //Creamos un vector assambler y combinamos todas estas columnas
@@ -54,7 +63,10 @@ val labelIndexer = new StringIndexer().setInputCol("species").setOutputCol("labe
 val indexed = labelIndexer.transform(output) 
 indexed.show()
 
-
+ ~~~
+![logo](/images/E6.PNG)  
+![logo](/images/E6.1.PNG) 
+  ~~~
 //Construya el modelo de clasificacion y explique su arquitectura.
 
 //dividira en un 70% de entrenamiento y un 30% de prueba
@@ -75,7 +87,9 @@ val model = trainer.fit(train)
 val result = model.transform(test)
 val predictionAndLabels = result.select("prediction", "label")
 val evaluator = new MulticlassClassificationEvaluator().setMetricName("accuracy")
- 
+  ~~~
+![logo](/images/E7.PNG)  
+  ~~~
 // Imprime los valores de precision
 println(s"Test set accuracy = ${evaluator.evaluate(predictionAndLabels)}")
 
@@ -83,4 +97,7 @@ println(s"Test set accuracy = ${evaluator.evaluate(predictionAndLabels)}")
 println(s"train: ${train.count}, test: ${test.count()}")
 //Mostrar el valor real de la tabla frente a la prediccion
 result.select("features", "label", "prediction").show(test.count().asInstanceOf[Int])
+  ~~~
+   
+![logo](/images/E8.PNG)  
   ~~~
