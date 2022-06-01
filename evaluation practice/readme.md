@@ -13,91 +13,47 @@
 [.scala File](https://github.com/Saul12344/datos-masivos/blob/unit-2/evaluation%20practice/Evaluation2.scala)  
 
 ## Code
-  ~~~
-//Utilice la libreria Mllib de Spark el algoritmo de Machine Learning multilayer perceptron
+    // 1. Import a simple Spark session.
+    import org.apache.spark.sql.SparkSession
 
-import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
-import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
-import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.types.IntegerType
-import org.apache.spark.ml.feature.StringIndexer
-import org.apache.spark.ml.feature.VectorAssembler
-import org.apache.spark.ml.linalg.Vectors
-///Cargar sesion spark
-var spark = SparkSession.builder().getOrCreate()
-//Cargar Iris.csv
-val df = spark.read.format("csv").option("inferSchema","true").option("header","true").csv("iris.csv")
-  ~~~
-![logo](/images/E1.PNG)  
-  ~~~
-//Cuales son los nombres de las columnas?
-df.columns
- ~~~
-![logo](/images/E2.PNG)  
-  ~~~
-//Como es el esquema?
-df.printSchema()
- ~~~
-![logo](/images/E3.PNG)  
-  ~~~
-//Imprime las primeras 5 columnas.
-df.select($"sepal_length",$"sepal_width",$"petal_length",$"petal_width",$"species").show()
- ~~~
-![logo](/images/E4.PNG)  
-  ~~~
-//Usa el metodo describe () para aprender mas sobre los datos del DataFrame.
-df.describe()
- ~~~
-![logo](/images/E5.PNG)  
-  ~~~
-//Haga la transformacion pertinente para los datos categoricos los cuales seran nuestras etiquetas a clasificar.
+    // 2. Use the lines of code to minimize errors
+    import org.apache.log4j._
+    Logger.getLogger("org").setLevel(Level.ERROR)
 
-//Creamos un vector assambler y combinamos todas estas columnas
+    // 3. Create an instance of the Spark session
+    val spark = SparkSession.builder().getOrCreate()
 
-val Vassembler = new VectorAssembler().setInputCols(Array("sepal_length","sepal_width","petal_length","petal_width")).setOutputCol("features")
-val output = Vassembler.transform(df)
-output.show()
+    // 4. Import the Kmeans library for the clustering algorithm.
+    import org.apache.spark.ml.clustering.KMeans
 
-//Transformamos la columna especial en numerica y nombrandola como label
-val labelIndexer = new StringIndexer().setInputCol("species").setOutputCol("label").fit(df) 
-val indexed = labelIndexer.transform(output) 
-indexed.show()
+    // 5. Load the Wholesale Customers Data dataset
+    val dataset = spark.read.option("header","true").option("inferSchema","true").format("csv").load("Wholesale customers data.csv")
 
- ~~~
-![logo](/images/E6.PNG)  
-![logo](/images/E6.1.PNG) 
-  ~~~
-//Construya el modelo de clasificacion y explique su arquitectura.
+    // 6. Select the following columns: Fresh, Milk, Grocery, Frozen, Detergents_Paper, Delicassen and call this set feature_data
+    val feature_data = (dataset.select($"Fresh", $"Milk", $"Grocery", $"Frozen", $"Detergents_Paper", $"Delicassen"))
 
-//dividira en un 70% de entrenamiento y un 30% de prueba
-val splits = indexed.randomSplit(Array(0.7, 0.3), seed = 1234L)
-val train = splits(0)
-val test = splits(1)
+    // 7. Import Vector Assembler and Vector
+    import org.apache.spark.ml.feature.VectorAssembler
+    import org.apache.spark.ml.linalg.Vectors
 
-//Arreglo de las capas de la red neuronal,en este caso escogemos ciertos valores del mismo arreglo de la capa ya mencionada 
-val layers = Array[Int](4, 4, 4, 3)
+    // 8. Create a new Vector Assembler object for the feature columns as a input set, remembering that there are no labels
+    val assembler = (new VectorAssembler().setInputCols(Array("Fresh", "Milk", "Grocery", "Frozen", "Detergents_Paper", "Delicassen")).setOutputCol("features"))
 
-// Creacion del modelo de entrenamiento
-val trainer = new MultilayerPerceptronClassifier().setLayers(layers).setBlockSize(128).setSeed(1234L).setMaxIter(100)
+    // 9. Use the assembler object to transform feature_data
+    val training_data = assembler.transform(feature_data).select($"features")
 
-// Variable para el modelo de entrenamiento
-val model = trainer.fit(train)
- 
-// Valores de la precision
-val result = model.transform(test)
-val predictionAndLabels = result.select("prediction", "label")
-val evaluator = new MulticlassClassificationEvaluator().setMetricName("accuracy")
-  ~~~
-![logo](/images/E7.PNG)  
-  ~~~
-// Imprime los valores de precision
-println(s"Test set accuracy = ${evaluator.evaluate(predictionAndLabels)}")
+    // 10. Create a Kmeans model with K = 3
+    val kmeans = new KMeans().setK(3).setSeed(1L)
 
-//Muestra la distribucion de los datos 
-println(s"train: ${train.count}, test: ${test.count()}")
-//Mostrar el valor real de la tabla frente a la prediccion
-result.select("features", "label", "prediction").show(test.count().asInstanceOf[Int])
-  ~~~
+    val model = kmeans.fit(training_data)
+
+    // 11.Evaluate the groups using Within Set Sum of Squared Errors WSSSE and print the centroids.
+    val WSSSE = model.computeCost(training_data)
+    println(s"Within Set Sum of Squared Errors = $WSSSE")
+
+
+println("Cluster Centers: ")
+model.clusterCenters.foreach(println)
    
 ![logo](/images/E8.PNG)  
   ~~~
