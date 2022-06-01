@@ -13,10 +13,11 @@
 [.scala File](https://github.com/Saul12344/datos-masivos/blob/unit-3/evaluation%20practice/Evaluation3.scala)  
 
 ## Code
-    // 1. Import a simple Spark session.
+   ## 1. Import a simple Spark session.
+    
     import org.apache.spark.sql.SparkSession
 
-    // 2. Use the lines of code to minimize errors
+   ## 2. Use the lines of code to minimize errors
     import org.apache.log4j._
     Logger.getLogger("org").setLevel(Level.ERROR)
 
