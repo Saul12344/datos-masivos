@@ -55,5 +55,5 @@
 println("Cluster Centers: ")
 model.clusterCenters.foreach(println)
    
-![logo](/images/E8.PNG)  
+![logo](/img/1.PNG)  
   ~~~
