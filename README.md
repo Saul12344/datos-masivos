@@ -7,7 +7,7 @@
 <H2><p align="Center">López Higuera Saúl Alfredo #18210493</p></H2>
 
 <H2><p align="Center">Ramos Rivera Manuel Isaí #17212931</p></H2>
-<H2><p align="Center">LINK DEL VIDEO:https://youtu.be/FWt-n5UPNuE</p></H2>
+<H2><p align="Center">LINK DEL VIDEO: </p></H2>
 
 ## Evaluative practice#3
 [.scala File](https://github.com/Saul12344/datos-masivos/blob/unit-3/evaluation%20practice/Evaluation3.scala)  
