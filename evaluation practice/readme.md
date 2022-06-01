@@ -51,9 +51,12 @@
     val WSSSE = model.computeCost(training_data)
     println(s"Within Set Sum of Squared Errors = $WSSSE")
 
-
-println("Cluster Centers: ")
-model.clusterCenters.foreach(println)
+    println("Cluster Centers: ")
+    model.clusterCenters.foreach(println)
+    
    
-<img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-3/Img/1.PNG" width=850 height=250>
+   ## results
+<img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-3/Img/1.PNG">
+<img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-3/Img/2.PNG">
+<img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-3/Img/3.PNG">
   ~~~
