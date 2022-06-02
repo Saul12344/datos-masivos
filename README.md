@@ -12,7 +12,7 @@
 ## Evaluative practice#3
 [.scala File](https://github.com/Saul12344/datos-masivos/blob/unit-3/evaluation%20practice/Evaluation3.scala)  
 [.Evaluation File](https://github.com/Saul12344/datos-masivos/blob/unit-3/evaluation%20practice/readme.md)  
-
+Link del video: https://www.youtube.com/watch?v=k2nBpn-v-DM
 ## Code
    ## 1. Import a simple Spark session.
     
