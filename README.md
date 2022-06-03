@@ -7,12 +7,12 @@
 <H2><p align="Center">López Higuera Saúl Alfredo #18210493</p></H2>
 
 <H2><p align="Center">Ramos Rivera Manuel Isaí #17212931</p></H2>
-<H2><p align="Center">LINK DEL VIDEO: </p></H2>
+<H2><p align="Center">LINK DEL VIDEO: https://www.youtube.com/watch?v=k2nBpn-v-DM </p></H2>
 
 ## Evaluative practice#3
 [.scala File](https://github.com/Saul12344/datos-masivos/blob/unit-3/evaluation%20practice/Evaluation3.scala)  
 [.Evaluation File](https://github.com/Saul12344/datos-masivos/blob/unit-3/evaluation%20practice/readme.md)  
-Link del video: https://www.youtube.com/watch?v=k2nBpn-v-DM
+
 
 ## Code
    ## 1. Import a simple Spark session.
