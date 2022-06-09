@@ -56,8 +56,10 @@
     println("Cluster Centers: ")
     model.clusterCenters.foreach(println)
     
-   
-   ## results
+## Results
+   ![logo](/Img/1.PNG)  
+   ![logo](/Img/2.PNG)  
+   ![logo](/Img/3.PNG)  
 <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-3/Img/1.PNG">
 <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-3/Img/2.PNG">
 <img alt="Logo" src="https://github.com/Saul12344/datos-masivos/blob/unit-3/Img/3.PNG">
