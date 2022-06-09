@@ -58,7 +58,7 @@
     
 ## Results
 
-   ![logo](/Img/1.PNG)  
+   ![logo](Img/1.PNG)  
    
    ![logo](/Img/2.PNG)  
    
