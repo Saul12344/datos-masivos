@@ -60,6 +60,6 @@
 
    ![logo](/Img/1.png)  
    
-   ![logo](/Img/2.PNG)  
+   ![logo](/Img/2.png)  
    
-   ![logo](/Img/3.PNG)  
+   ![logo](/Img/3.png)  
