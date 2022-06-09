@@ -27,18 +27,20 @@ The objective of the classification is to predict if the client subscribed a ter
 # Support Vector Machine (SVM).
 
 It is a discriminative classifier formally defined by a separation hyperplane. In other words, given the labeled training data (supervised learning), the algorithm generates an optimal hyperplane that categorizes new examples. In two-dimensional spaces, this hyperplane is a line that divides a plane into two parts where each class is on each side. That is used in many classification and regression problems, including medical applications of signal processing, natural language processing, and image and speech recognition. The idea of SVM is simple: the algorithm creates a line or hyperplane that separates the data into classes.
+
 ![logo](/Img/1.PNG)  
 
 Advantages and disadvantages
+
 Advantage:
-● Classifier algorithm based on solid theory. Risk minimization theorems are the state of the art in statistical learning.
-● Can be applied to data represented in any Hilbert space (where you can define a distance measure).
-● Relatively few parameters to estimate.
-● New extensions can be formulated (flexibility).
+- Classifier algorithm based on solid theory. Risk minimization theorems are the state of the art in statistical learning.
+- Can be applied to data represented in any Hilbert space (where you can define a distance measure).
+- Relatively few parameters to estimate.
+- New extensions can be formulated (flexibility).
 
 Disadvantages:
-● Determining the kernels to use is complex.
-● It is just a binary classifier.
+- Determining the kernels to use is complex.
+- It is just a binary classifier.
 
 ## Code
   ~~~
