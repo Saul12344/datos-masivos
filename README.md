@@ -9,13 +9,13 @@
 <H2><p align="Center">Ramos Rivera Manuel Isaí #17212931</p></H2>
 <H2><p align="Center">LINK DEL VIDEO:https://www.youtube.com/watch?v=eLcprAHl5yA</p></H2>
 
-## Final project
-[.scala File]() 
+# Final project
+[Decision Three.scala](https://github.com/Saul12344/datos-masivos/blob/unit-4/Evaluation/DTC.scala) 
 <br>
-[.scala File]() 
+[Logistic Regression.scala](https://github.com/Saul12344/datos-masivos/blob/unit-4/Evaluation/LR.scala) 
 <br>
-[.scala File]() 
+[Multilayer perceptron.scala](https://github.com/Saul12344/datos-masivos/blob/unit-4/Evaluation/MLP.scala) 
 <br>
-[.scala File]() 
+[Support Vector Machine.scala](https://github.com/Saul12344/datos-masivos/blob/unit-4/Evaluation/SVM.scala) 
 <br>
 [Final_project File](https://github.com/Saul12344/datos-masivos/blob/unit-4/Evaluation/README.md) 
