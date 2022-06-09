@@ -281,3 +281,243 @@ println(s"ACCURACY ACCURACY ACCURACY= ${metrics.accuracy}")
  
 }  
 ```
+![logo](/Img/6.PNG)  
+
+## Multilayer perceptron
+## Code
+
+We import the necessary libraries with which we are going to work 
+ ```r
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.types.IntegerType
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
+import org.apache.spark.ml.feature.StringIndexer
+import org.apache.spark.ml.feature.VectorAssembler
+ ```
+Error level code
+ ```r
+import org.apache.log4j._
+Logger.getLogger("org").setLevel(Level.ERROR)
+ ```
+Spark session.
+ ```r
+val spark = SparkSession.builder.appName("MultilayerPerceptron").getOrCreate()
+ ```
+load the csv file
+ ```r
+val bank = spark.read.option("header","true").option("inferSchema","true").option("delimiter",";").format("csv").load(" bank-full.csv")
+ 
+bank.show
+  ```
+Show the name of the columns.
+ ```r
+bank.columns
+ ```
+indexing.
+ ```r
+val labelIndexer = new StringIndexer().setInputCol("y").setOutputCol("indexedLabel").fit(bank)
+val indexed = labelIndexer.transform(bank).drop("y").withColumnRenamed("indexedLabel", "label")
+ ```
+We add the vector of the numeric category columns.
+ ```r
+val vectorFeatures = (new VectorAssembler().setInputCols(Array("balance","day","duration","pdays","previous")).setOutputCol("features"))
+ ```
+Transform the indexed value.
+ ```r
+val features = vectorFeatures.transform(indexed)
+ ```
+Adjust the indices and find labels 0 and 1.
+ ```r
+val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexedLabel").fit(indexed)
+ ```
+run the model 30 times.
+ ```r
+for(i <- Range(1,30))
+{
+ ```
+Start the timer.
+ ```r
+val startTimeMillis = System.currentTimeMillis()
+  ```
+Separate the values and divide the data into 70% and 30%.
+ ```r
+val splits = features.randomSplit(Array(0.7, 0.3))
+val trainingData = splits(0)
+val testData = splits(1)
+ ```
+We create the array of layers.
+ ```r
+val layers = Array[Int](5, 4, 1, 2)
+ ```
+Create the Multilayer Perceptron object.
+ ```r
+val multilayerP = new MultilayerPerceptronClassifier().setLayers(layers).setBlockSize(128).setSeed(1234L).setMaxIter(100)
+ ```
+training data in the model.
+ ```r
+val model = multilayerP.fit(trainingData)
+ ```
+Transformation of test data for predictions.
+ ```r
+val prediction = model.transform(testData)
+ ```
+select the prediction and label columns.
+ ```r
+val predictionAndLabels = prediction.select("prediction", "label")
+ ```
+Create a Multiclass Classification Evaluator object.
+ ```r
+val evaluator = new MulticlassClassificationEvaluator().setMetricName("accuracy")
+val endTimeMillis = System.currentTimeMillis()
+val durationSeconds = (endTimeMillis - startTimeMillis) / 1000
+  ```
+Results.
+ ```r
+println("|"+i + "|"+evaluator.evaluate(predictionAndLabels) +"|"+(1.0 - evaluator.evaluate(predictionAndLabels))+"|" +durationSeconds+ "|")}
+ ```
+ ![logo](/Img/7.PNG)  
+ 
+## SVM
+## Code
+
+//Required libraries.
+ ```r
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.mllib.evaluation.MulticlassMetrics
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.linalg.Vectors
+import org.apache.spark.ml.classification.LinearSVC
+import org.apache.spark.ml.classification.LogisticRegression
+import org.apache.spark.ml.feature.StringIndexer
+import org.apache.spark.ml.feature.VectorIndexer
+import org.apache.spark.ml.feature.VectorAssembler
+ ```
+// error level code.
+ ```r
+import org.apache.log4j._
+Logger.getLogger("org").setLevel(Level.ERROR)
+  ```
+//Spark session.
+ ```r
+val spark = SparkSession.builder.appName("SVM").getOrCreate()
+ ```
+//CSV import.
+ ```r
+val bank = spark.read.option("header","true").option("inferSchema","true").option("delimiter",";").format("csv").load(" bank-full.csv")
+ 
+bank.show
+ ```
+//name of the columns.
+ ```r
+bank.columns
+ ```
+//indexing.
+ ```r
+val labelIndexer = new StringIndexer().setInputCol("y").setOutputCol("indexedLabel").fit(bank)
+val indexed = labelIndexer.transform(bank).drop("y").withColumnRenamed("indexedLabel", "label")
+ ```
+//We add the vector of the numeric category columns.
+ ```r
+val vectorFeatures = (new VectorAssembler().setInputCols(Array("duration","pdays","previous")).setOutputCol("features"))
+ ```
+//transform the indexed value.
+ ```r
+val features = vectorFeatures.transform(indexed)
+  ```
+//We change the name of the column "y" as a label.
+ ```r
+val featuresLabel = features.withColumnRenamed("y", "label")
+ ```
+//Now we do union of labels and features like dataIndexed.
+ ```r
+val dataIndexed = featuresLabel.select("label","features")
+ ```
+//create labelIndexer and featureIndexer for the pipeline.features with distinct values > 4, are treated as continuous.
+ ```r
+val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexedLabel").fit(dataIndexed)
+val featureIndexer = new VectorIndexer().setInputCol("features").setOutputCol("indexedFeatures").setMaxCategories(4).fit(dataIndexed)
+ ```
+//Run the model 30 times.
+ ```r
+for(i <- Range(1,31))
+{
+ ```
+// start the timer
+ ```r
+val startTimeMillis = System.currentTimeMillis()
+ ```
+//separate the values and divide the data into 70% and 30%.
+ ```r
+val Array(training, test) = dataIndexed.randomSplit(Array(0.7, 0.3))
+ ```
+//create the Linear Vector Machine object.
+ ```r
+val supportVM = new LinearSVC().setMaxIter(10).setRegParam(0.1)
+  ```
+// training data in the model.
+ ```r
+val model = supportVM.fit(training)
+ ```
+//Transforming testData for the predictions model.
+ ```r
+val predictions = model.transform(test)
+ ```
+// get the metrics.
+ ```r
+val predictionAndLabels = predictions.select($"prediction",$"label").as[(Double, Double)].rdd
+val metrics = new MulticlassMetrics(predictionAndLabels)
+ ```
+//confusion matrix.
+ ```r
+println("Confusionmatrix:")
+println(metrics.confusionMatrix)
+ ```
+//terminate the time for the model.
+ ```r
+val endTimeMillis = System.currentTimeMillis()
+val durationSeconds = (endTimeMillis - startTimeMillis) / 1000
+ ```
+//Results.
+ ```r
+println("|"+i + "|"+ metrics.accuracy +"|"+ (1.0 - metrics.accuracy)+"|" +durationSeconds + "|")
+}
+ ```
+  ![logo](/Img/8.PNG)  
+  ![logo](/Img/9.PNG)  
+# Model comparison table.
+
+  ![logo](/Img/10.PNG)  
+# Conclusion.
+## Saul Lopez:
+This project represents the culmination of the Big Data course where we apply the knowledge acquired to make multiple models capable of making accurate predictions to generate possible solutions. For this evaluation, a comparison of the most used and efficient models used in the world of machine learning was developed. and mainly of the Big Data, to show the correct functioning of the same and to see their results compared with the others by having built a table that clearly shows that all of them in general generate an acceptable performance since each one varies with respect to the other but in the end all with results above 80%.
+
+## Manuel Ramos:
+With this final effort we consider the subject to be finished, demonstrating with a final project the knowledge acquired in the form of a final review, we put the different models in check and tested their efficiency. equal to 80 in terms of time, the winner would be the linear regression one, counting with almost a quarter of the time of Support Vector Machines, the winner in terms of being the most balanced in time and efficiency would be the decision tree.
+
+# Video link: https://youtu.be/eLcprAHl5yA
+# Bibliographic references.
+
+El Naqa, I. and Murphy, M., 2022. What is machine learning? Available at: https://link.springer.com/chapter/10.1007/978-3-319-18305-3_1
+
+Basic Statistical Analysis of SVMs. (2008). SpringerLink. https://link.springer.com/chapter/10.1007/978-0-387-77242-4_6?error=cookies_not_supported&code=6174a648-3ea1-4b5d-a36b-a0d1d2e165fb
+
+Zhang, X. (2017). Support Vector Machines. SpringerLink. https://link.springer.com/referenceworkentry/10.1007/978-1-4899-7687-1_810?error=cookies_not_supported&code=7de39821-672e-4b4c-8dd7-d5ad1f5f03b7
+
+Brownlee, J. (2020, August 15). Crash Course On Multi-Layer Perceptron Neural Networks. Machine Learning Mastery. https://machinelearningmastery.com/neural-networks-crash-course/
+
+Extreme Learning Machine for Multilayer Perceptron. (2016, April 1). IEEE Journals & Magazines | IEEEXplore. https://ieeexplore.ieee.org/document/7103337
+Taravat, A. (2021). Multilayer Perceptron Neural Networks Model for Meteosat Second Generation SEVIRI Daytime Cloud Masking. IPDM. https://www.mdpi.com/2072-4292/7/2/1529
+
+MS (. (2017, October 6). Chapter 4: Decision trees algorithms. Deep Math Machine
+Learning.Ai.
+https://medium.com/deep-math-machine-learning-ai/chapter-4-decision-trees-algorithms-b93975f7a1f1
+
+DecisionTree. (2017, October 16). Geeksforgeeks.Org.
+https://www.geeksforgeeks.org/decision-tree/
+
+What is Apache Spark. (2018, July 2). Openwebinars.Net.
+https://openwebinars.net/blog/what-is-apache-spark/
+
+unknown. (2022). Multilayer Perceptron Classifier (Scala). 06/08/2022, from Databricks .Website:
+https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/3741049972324885/1019862370390522/4413065072037724/latest.html
