@@ -85,9 +85,111 @@ Disadvantages:
 - The main limitation of logistic regression is the assumption of linearity between the dependent variables and the independent variables. In the real world, data is rarely linearly separated. Most of the time the data would be a mess.
 - If the number of observations is less than the number of features, then logistic regression should not be used, otherwise it may cause overfitting.
 
+# Multilayer perceptron (MLPC).
+
+(MLP) is a supervised learning algorithm that learns a function f (.): 𝑅 by training on 𝑚 → 𝑅 𝑂𝑟 a data set, where is the number of dimensions for input and is the number of dimensions for output. Given a feature set X = x1, x2, ..., xm and a target "y", you can learn an approximator of nonlinear functions for classification or regression. It is different from logistics. regression, in which between the input layer and the output layer, there may be one or more nonlinear layers, called hidden layers.
+
+![logo](/Img/3.PNG)  
+
+A nonlinear dynamical model for a process system, namely a heat exchanger, is developed using the recurrent multilayer perceptron network as the underlying model structure. The perceptron is a dynamic neural network, which appears effective in input-output modeling of complex process systems. Dynamic gradient descent learning is used to train the recurrent multilayer perceptron, resulting in an order-of-magnitude improvement in the speed of convergence in a static learning algorithm used to train the same network.
+
+![logo](/Img/4.PNG)  
+
+Advantages and disadvantages
+
+Advantage:
+- Ability to learn nonlinear models.
+- Ability to learn models in real time (online learning) using partial_fit.
+
+Disadvantages:
+
+- MLPs with hidden layers have a non-convex loss function when there is more than one local minimum. Therefore, different random weight initializations can lead to different validation accuracy.
+- MLP requires adjusting a series of hyper parameters.
+- MLP is scale sensitive.
+
+# Implementation.
+
+-Apache Spark
+
+Apache Spark is a distributed processing engine responsible for orchestrating, distributing, and monitoring applications that consist of multiple data processing tasks across multiple machine jobs, which form a cluster.
+
+
+
+
+-scale
+
+Scala programs run in the Java virtual machine (JVM) and can interoperate with Java programs and application programming interfaces (APIs). It is a multi-paradigm programming language that natively supports imperative, object-oriented, and functional programming styles.
+Also, using the flexible features of the language syntax, they create powerful libraries. The extensions provide actor-based concurrency-oriented programming and language-oriented programming facilities.
+
+# Results.
+
+## Decision Three
 ## Code
   ~~~
-
+/* We import the necessary libraries with which we are going to work */
+for(i <- 0 to 30)
+{
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.types.DateType
+import org.apache.spark.ml.feature.VectorIndexer
+import org.apache.spark.ml.feature.VectorAssembler
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.feature.StringIndexer
+import org.apache.spark.ml.classification.DecisionTreeClassifier
+import org.apache.spark.ml.feature.IndexToString
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+import org.apache.spark.ml.classification.DecisionTreeClassificationModel
+import org.apache.log4j._
+ 
+/*Remove the warnings*/
+Logger.getLogger("org").setLevel(Level.ERROR)
+ 
+/*Create a spark session and load the CSV data into a datraframe*/
+val spark = SparkSession.builder().getOrCreate()
+val df = spark.read.option("header","true").option("inferSchema","true").option("delimiter",";").format("csv").load(" bank-full.csv")
+ 
+/* We change the column y for one with binary data */
+val change1 = df.withColumn("y",when(col("y").equalTo("yes"),1).otherwise(col("y")))
+val change2 = change1.withColumn("y",when(col("y").equalTo("no"),2).otherwise(col("y")))
+val newcolumn = change2.withColumn("y",'y.cast("Int"))
+ 
+/* Generate the features table */
+val assembler = new VectorAssembler().setInputCols(Array("balance","day","duration","pdays","previous")).setOutputCol("features")
+ugly val = assembler.transform(newcolumn)
+ 
+/*Change the y column to the label column*/
+val change = fea.withColumnRenamed("y", "label")
+val feat = change.select("label","features")
+ 
+/*DecisionTree*/
+val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexedLabel").fit(feat)
+ 
+/* features with more than 4 distinct values are taken as continuous */
+val featureIndexer = new VectorIndexer().setInputCol("features").setOutputCol("indexedFeatures").setMaxCategories(4)
+ 
+/*Split the data between 70% and 30% in an array*/
+val Array(trainingData, testData) = feat.randomSplit(Array(0.7, 0.3))
+ 
+/*Create a DecisionTree object*/
+val dt = new DecisionTreeClassifier().setLabelCol("indexedLabel").setFeaturesCol("indexedFeatures")
+ 
+/*Prediction branch*/
+val labelConverter = new IndexToString().setInputCol("prediction").setOutputCol("predictedLabel").setLabels(labelIndexer.labels)
+ 
+/* Put the data together in a pipeline */
+val pipeline = new Pipeline().setStages(Array(labelIndexer, featureIndexer, dt, labelConverter))
+ 
+/*Create a training model*/
+val model = pipeline.fit(trainingData)
+ 
+/*Transformation of data in the model*/
+val predictions = model.transform(testData)
+ 
+/* Evaluate accuracy */
+val evaluator = new MulticlassClassificationEvaluator().setLabelCol("indexedLabel").setPredictionCol("prediction").setMetricName("accuracy")
+val accuracy = evaluator.evaluate(predictions)
+println(s"ACCURACY ACCURACY ACCURACY= ${accuracy}")
+}
   ~~~
 ![logo](/images/E1.PNG)  
   ~~~
