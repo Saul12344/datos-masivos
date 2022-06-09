@@ -60,6 +60,31 @@ Disadvantages:
 - Decision trees are less appropriate for estimation tasks where the goal is to predict the value of a continuous attribute.
 - Decision trees are prone to errors in classification problems with many classes and a relatively small number of training examples.
 
+# Logistic regression (LR).
+
+It is a classification algorithm used to assign observations to a discrete set of classes. Some of the examples of classification problems are spam, fraudulent or non-fraudulent online transactions, benign or malignant tumor. Logistic regression transforms its output using the logistic sigmoid function to return a probability value. Logistic regression is a machine learning algorithm used for classification problems, it is a predictive analysis algorithm and it is based on the concept of probability.
+The logistic regression model is based on the probabilities of an outcome of 2 levels of interest. For simplicity, I assume that we have designated one of the outcomes level the event of interest and in the following text we will simply call it the event.
+The probability of the event is the ratio of the probability that the event will happen divided by the probability that the event will not happen.
+
+![logo](/Img/2.PNG)  
+
+## How is logistic regression used?
+Logistic regression should only be used when the target variables fall into discrete categories and if there is a continuous range of values ​​that could be the target value, then logistic regression should not be used. Examples of situations where you might use logistic regression include:
+- Predict whether an email is spam or not spam
+- Whether a tumor is malignant or benign
+- Whether a mushroom is poisonous or edible.
+
+Advantages and disadvantages.
+
+Advantage:
+- Logistic regression works well when the data set is linearly separable L2.
+- Logistic regression is less prone to overfitting, but overfitting in data sets can be high dimension so consider regularization techniques (L1 and ) to avoid overfitting in these scenarios.
+
+Disadvantages:
+
+- The main limitation of logistic regression is the assumption of linearity between the dependent variables and the independent variables. In the real world, data is rarely linearly separated. Most of the time the data would be a mess.
+- If the number of observations is less than the number of features, then logistic regression should not be used, otherwise it may cause overfitting.
+
 ## Code
   ~~~
 
