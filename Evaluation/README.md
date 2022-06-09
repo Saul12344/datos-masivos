@@ -42,6 +42,24 @@ Disadvantages:
 - Determining the kernels to use is complex.
 - It is just a binary classifier.
 
+# Decision three classifier (DTC).
+
+A decision tree is a decision support tool that uses a graph or model of decisions in the form of a tree and their possible consequences, including outcomes of chance events, resource costs, and utility. It is a way of showing an algorithm that only contains conditional control statements. A decision tree is a flowchart-like structure in which each internal node represents a "test" on an attribute (for example, whether a coin turns heads or tails), each branch represents the outcome of the test, and each leaf node represents a class label (decision made after calculating all attributes). The root-to-leaf paths represent classification rules.
+
+Advantages and disadvantages
+
+
+Advantage:
+- Decision trees can generate understandable rules.
+- Decision trees perform classification without requiring many calculations.
+- Decision trees can handle continuous and categorical variables.
+- Decision trees provide a clear indication of which fields are most important for prediction or classification.
+
+Disadvantages:
+
+- Decision trees are less appropriate for estimation tasks where the goal is to predict the value of a continuous attribute.
+- Decision trees are prone to errors in classification problems with many classes and a relatively small number of training examples.
+
 ## Code
   ~~~
 
