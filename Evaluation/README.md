@@ -116,7 +116,7 @@ Apache Spark is a distributed processing engine responsible for orchestrating, d
 
 
 
--scale
+-scala
 
 Scala programs run in the Java virtual machine (JVM) and can interoperate with Java programs and application programming interfaces (APIs). It is a multi-paradigm programming language that natively supports imperative, object-oriented, and functional programming styles.
 Also, using the flexible features of the language syntax, they create powerful libraries. The extensions provide actor-based concurrency-oriented programming and language-oriented programming facilities.
@@ -125,7 +125,7 @@ Also, using the flexible features of the language syntax, they create powerful l
 
 ## Decision Three
 ## Code
-  ~~~
+  ```r
 /* We import the necessary libraries with which we are going to work */
 for(i <- 0 to 30)
 {
@@ -190,7 +190,7 @@ val evaluator = new MulticlassClassificationEvaluator().setLabelCol("indexedLabe
 val accuracy = evaluator.evaluate(predictions)
 println(s"ACCURACY ACCURACY ACCURACY= ${accuracy}")
 }
-  ~~~
+  ```
 ![logo](/images/E1.PNG)  
   ~~~
 
