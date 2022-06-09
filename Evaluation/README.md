@@ -207,24 +207,77 @@ println(s"ACCURACY ACCURACY ACCURACY= ${accuracy}")
 }
   ```
 ![logo](/Img/5.PNG)  
-  ~~~
+  
+## Logistic Regression
+## Code
 
- ~~~
-![logo](/images/E2.PNG)  
-  ~~~
-
- ~~~
-![logo](/images/E3.PNG)  
-  ~~~
-
- ~~~
-![logo](/images/E4.PNG)  
-  ~~~
-
- ~~~
-![logo](/images/E5.PNG)  
-  ~~~
-
-
-
- ~~~
+Import the libraries
+```r
+for(i <- 0 to 30)
+{
+import org.apache.spark.ml.classification.LogisticRegression
+import org.apache.spark.ml.feature.{VectorAssembler, StringIndexer, VectorIndexer}
+import org.apache.spark.ml.linalg.Vectors
+import org.apache.spark.sql.SparkSession
+import org.apache.log4j._
+ 
+Logger.getLogger("org").setLevel(Level.ERROR)
+ 
+val spark = SparkSession.builder().getOrCreate()
+ ```
+The CSV data is imported
+```r
+val data = spark.read.option("header","true").option("inferSchema", "true").option("delimiter",";").format("csv").load(" bank-full.csv")
+ ```
+String variables are categorized to numeric value
+```r
+val yes = data.withColumn("y",when(col("y").equalTo("yes"),1).otherwise(col("y")))
+val clean = yes.withColumn("y",when(col("y").equalTo("no"),2).otherwise(col("y")))
+val cleanData = clean.withColumn("y",'y.cast("Int"))
+ ```
+Creation of the Array with the selected data
+```r
+val featureCols = Array("age","previous","balance","duration")
+ ```
+Creation of the Vector based on the features
+```r
+val assembler = new VectorAssembler().setInputCols(featureCols).setOutputCol("features")
+ ```
+Transformation to a new DF
+```r
+val df2 = assembler.transform(cleanData)
+ ```
+Rename columns
+```r
+val featuresLabel = df2.withColumnRenamed("y", "label")
+ ```
+Selection of index
+```r
+val dataI = featuresLabel.select("label","features")
+ ```
+Creation of the Array with the training and test data
+```r
+val Array(training, test) = dataI.randomSplit(Array(0.7, 0.3), seed = 12345)
+ ```
+Regression Model
+```r
+val lr = new LogisticRegression().setMaxIter(10).setRegParam(0.3).setElasticNetParam(0.8)
+val lrModel = lr.fit(training)
+var results = lrModel.transform(test)
+ 
+import org.apache.spark.mllib.evaluation.MulticlassMetrics
+ ```
+Convert test results to RDD using .as and .rdd
+```r
+val predictionAndLabels = results.select($"prediction",$"label").as[(Double, Double)].rdd
+ ```
+Initialize a MulticlassMetrics object
+```r
+val metrics = new MulticlassMetrics(predictionAndLabels)
+ ```
+Accuracy
+ ```r
+println(s"ACCURACY ACCURACY ACCURACY= ${metrics.accuracy}")
+ 
+}  
+```
