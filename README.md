@@ -10,7 +10,7 @@
 <H2><p align="Center">LINK DEL VIDEO: https://www.youtube.com/watch?v=k2nBpn-v-DM </p></H2>
 
 ## Evaluative practice#3
-[.scala File](https://github.com/Saul12344/datos-masivos/blob/unit-3/evaluation%20practice/Evaluation3.scala)  
-[.Evaluation File](https://github.com/Saul12344/datos-masivos/blob/unit-3/evaluation%20practice/readme.md)  
+[.scala File](https://github.com/Saul12344/datos-masivos/blob/unit_3/evaluation%20practice/Evaluation3.scala)  
+[.Evaluation File](https://github.com/Saul12344/datos-masivos/edit/unit_3/evaluation%20practice/README.md)  
 
 
