@@ -125,8 +125,9 @@ Also, using the flexible features of the language syntax, they create powerful l
 
 ## Decision Three
 ## Code
-  ```r
-/* We import the necessary libraries with which we are going to work */
+ 
+We import the necessary libraries with which we are going to work 
+```r
 for(i <- 0 to 30)
 {
 import org.apache.spark.sql.SparkSession
@@ -140,58 +141,72 @@ import org.apache.spark.ml.feature.IndexToString
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.spark.ml.classification.DecisionTreeClassificationModel
 import org.apache.log4j._
- 
-/*Remove the warnings*/
+```
+Remove the warnings
+```r
 Logger.getLogger("org").setLevel(Level.ERROR)
- 
-/*Create a spark session and load the CSV data into a datraframe*/
+ ```
+ ```r
+Create a spark session and load the CSV data into a datraframe
 val spark = SparkSession.builder().getOrCreate()
 val df = spark.read.option("header","true").option("inferSchema","true").option("delimiter",";").format("csv").load(" bank-full.csv")
- 
-/* We change the column y for one with binary data */
+ ```
+We change the column y for one with binary data 
+```r
 val change1 = df.withColumn("y",when(col("y").equalTo("yes"),1).otherwise(col("y")))
 val change2 = change1.withColumn("y",when(col("y").equalTo("no"),2).otherwise(col("y")))
 val newcolumn = change2.withColumn("y",'y.cast("Int"))
- 
-/* Generate the features table */
+ ```
+Generate the features table 
+```r
 val assembler = new VectorAssembler().setInputCols(Array("balance","day","duration","pdays","previous")).setOutputCol("features")
-ugly val = assembler.transform(newcolumn)
- 
-/*Change the y column to the label column*/
+val fea = assembler.transform(newcolumn)
+ ```
+Change the y column to the label column
+```r
 val change = fea.withColumnRenamed("y", "label")
 val feat = change.select("label","features")
- 
-/*DecisionTree*/
+ ```
+DecisionTree
+```r
 val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexedLabel").fit(feat)
- 
-/* features with more than 4 distinct values are taken as continuous */
+ ```
+Features with more than 4 distinct values are taken as continuous 
+```r
 val featureIndexer = new VectorIndexer().setInputCol("features").setOutputCol("indexedFeatures").setMaxCategories(4)
- 
-/*Split the data between 70% and 30% in an array*/
+ ```
+Split the data between 70% and 30% in an array
+```r
 val Array(trainingData, testData) = feat.randomSplit(Array(0.7, 0.3))
- 
-/*Create a DecisionTree object*/
+``` 
+Create a DecisionTree object
+```r
 val dt = new DecisionTreeClassifier().setLabelCol("indexedLabel").setFeaturesCol("indexedFeatures")
- 
-/*Prediction branch*/
+ ```
+Prediction branch
+```r
 val labelConverter = new IndexToString().setInputCol("prediction").setOutputCol("predictedLabel").setLabels(labelIndexer.labels)
- 
-/* Put the data together in a pipeline */
+ ```
+Put the data together in a pipeline 
+```r
 val pipeline = new Pipeline().setStages(Array(labelIndexer, featureIndexer, dt, labelConverter))
- 
-/*Create a training model*/
+ ```
+Create a training model
+```r
 val model = pipeline.fit(trainingData)
- 
-/*Transformation of data in the model*/
+ ```
+Transformation of data in the model
+```r
 val predictions = model.transform(testData)
- 
-/* Evaluate accuracy */
+ ```
+Evaluate accuracy 
+```r
 val evaluator = new MulticlassClassificationEvaluator().setLabelCol("indexedLabel").setPredictionCol("prediction").setMetricName("accuracy")
 val accuracy = evaluator.evaluate(predictions)
 println(s"ACCURACY ACCURACY ACCURACY= ${accuracy}")
 }
   ```
-![logo](/images/E1.PNG)  
+![logo](/Img/5.PNG)  
   ~~~
 
  ~~~
